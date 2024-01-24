@@ -1,0 +1,1427 @@
+{
+ "Resources": {
+  "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sagemaker.amazonaws.com"
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     "arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess",
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/StepFunctionsExecutionRole/Resource"
+   }
+  },
+  "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "sagemaker:DescribeLabelingJob",
+        "cloudwatch:DescribeLogStreams",
+        "cloudwatch:CreateLogGroup",
+        "cloudwatch:CreateLogStream",
+        "logs:PutLogEvents",
+        "states:StartExecution"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "s3:*",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "athena:StartQueryExecution",
+        "athena:GetQueryExecution",
+        "athena:GetQueryResults",
+        "athena:StopQueryExecution",
+        "athena:GetWorkGroup"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:athena:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":workgroup/primary"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1",
+    "Roles": [
+     {
+      "Ref": "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/StepFunctionsExecutionRole/DefaultPolicy/Resource"
+   }
+  },
+  "LabelingPipelineAssetsCheckMissingLabelsFunction98BFCA2E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ImageUri": {
+      "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:cba1a768e7eccd4d28050a843f61ddc0415f97f21fefd5c3755817c53f50c678"
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "FEATURE_GROUP_NAME": {
+       "Fn::ImportValue": "mlopsfeatureGroup"
+      },
+      "FEATURE_NAME_S3URI": "source_ref",
+      "INPUT_IMAGES_S3URI": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "mlopsDataBucket"
+         },
+         "/pipeline/assets/images/"
+        ]
+       ]
+      },
+      "QUERY_RESULTS_S3URI": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "mlopsDataBucket"
+         },
+         "/tmp/feature_store_query_results"
+        ]
+       ]
+      }
+     }
+    },
+    "FunctionName": "CheckMissingLabelsFunction",
+    "MemorySize": 1024,
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+      "Arn"
+     ]
+    },
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1",
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/CheckMissingLabelsFunction/Resource",
+    "aws:asset:path": "../asset.cba1a768e7eccd4d28050a843f61ddc0415f97f21fefd5c3755817c53f50c678",
+    "aws:asset:dockerfile-path": "Dockerfile",
+    "aws:asset:property": "Code.ImageUri"
+   }
+  },
+  "LabelingPipelineAssetsRunVerificationJobLambdaE6F47CCB": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "768d94afe19cae5532a3a6ed43bf707a0fde3c6bd3010d11696e4825e6be159b.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET": {
+       "Fn::ImportValue": "mlopsDataBucket"
+      },
+      "PREFIX": "pipeline/assets",
+      "ROLE": {
+       "Fn::GetAtt": [
+        "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+        "Arn"
+       ]
+      },
+      "USE_PRIVATE_WORKTEAM": "false",
+      "PRIVATE_WORKTEAM_ARN": "arn:aws:sagemaker:eu-west-1:0000000000000:workteam/private-crowd/GT1"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1",
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/RunVerificationJobLambda/Resource",
+    "aws:asset:path": "../asset.768d94afe19cae5532a3a6ed43bf707a0fde3c6bd3010d11696e4825e6be159b",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LabelingPipelineAssetsRunLabelingJobLambda8A042C03": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "272b103172176db138c79d34d2f7c24d5af2f32e31fc48271d7bfc99f556d4e9.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "BUCKET": {
+       "Fn::ImportValue": "mlopsDataBucket"
+      },
+      "PREFIX": "pipeline/assets",
+      "ROLE": {
+       "Fn::GetAtt": [
+        "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+        "Arn"
+       ]
+      },
+      "USE_PRIVATE_WORKTEAM": "false",
+      "PRIVATE_WORKTEAM_ARN": "arn:aws:sagemaker:eu-west-1:0000000000000:workteam/private-crowd/GT1",
+      "MAX_LABELS": "200"
+     }
+    },
+    "Handler": "index.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 300
+   },
+   "DependsOn": [
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1",
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/RunLabelingJobLambda/Resource",
+    "aws:asset:path": "../asset.272b103172176db138c79d34d2f7c24d5af2f32e31fc48271d7bfc99f556d4e9",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "LabelingPipelineAssetsUpdateFeatureStoreLambda69B52800": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Architectures": [
+     "x86_64"
+    ],
+    "Code": {
+     "ImageUri": {
+      "Fn::Sub": "${AWS::AccountId}.dkr.ecr.${AWS::Region}.${AWS::URLSuffix}/cdk-hnb659fds-container-assets-${AWS::AccountId}-${AWS::Region}:8124a9b609babce02f2ee5bcb126586de6d91d4e96c0c65f83fbdc04b209f3b9"
+     }
+    },
+    "Environment": {
+     "Variables": {
+      "ROLE": {
+       "Fn::GetAtt": [
+        "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+        "Arn"
+       ]
+      },
+      "FEATURE_GROUP_NAME": {
+       "Fn::ImportValue": "mlopsfeatureGroup"
+      },
+      "FEATURE_NAME_S3URI": "source_ref",
+      "FEATURE_STORE_S3URI": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "mlopsDataBucket"
+         },
+         "/feature-store/"
+        ]
+       ]
+      },
+      "QUERY_RESULTS_S3URI": {
+       "Fn::Join": [
+        "",
+        [
+         "s3://",
+         {
+          "Fn::ImportValue": "mlopsDataBucket"
+         },
+         "/tmp/feature_store_query_results"
+        ]
+       ]
+      }
+     }
+    },
+    "FunctionName": "UpdateLabelsInFeatureStoreFunction",
+    "MemorySize": 1024,
+    "PackageType": "Image",
+    "Role": {
+     "Fn::GetAtt": [
+      "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944",
+      "Arn"
+     ]
+    },
+    "Timeout": 600
+   },
+   "DependsOn": [
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1",
+    "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/UpdateFeatureStoreLambda/Resource",
+    "aws:asset:path": "../asset.8124a9b609babce02f2ee5bcb126586de6d91d4e96c0c65f83fbdc04b209f3b9",
+    "aws:asset:dockerfile-path": "Dockerfile",
+    "aws:asset:property": "Code.ImageUri"
+   }
+  },
+  "LabelingRole4E792483": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": {
+         "Fn::FindInMap": [
+          "ServiceprincipalMap",
+          {
+           "Ref": "AWS::Region"
+          },
+          "states"
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Role/Resource"
+   }
+  },
+  "LabelingRoleDefaultPolicy1F15DB4F": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LabelingPipelineAssetsCheckMissingLabelsFunction98BFCA2E",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "LabelingPipelineAssetsCheckMissingLabelsFunction98BFCA2E",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LabelingPipelineAssetsRunLabelingJobLambda8A042C03",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "LabelingPipelineAssetsRunLabelingJobLambda8A042C03",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sagemaker:describeLabelingJob",
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LabelingPipelineAssetsRunVerificationJobLambdaE6F47CCB",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "LabelingPipelineAssetsRunVerificationJobLambdaE6F47CCB",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "lambda:InvokeFunction",
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::GetAtt": [
+          "LabelingPipelineAssetsUpdateFeatureStoreLambda69B52800",
+          "Arn"
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           {
+            "Fn::GetAtt": [
+             "LabelingPipelineAssetsUpdateFeatureStoreLambda69B52800",
+             "Arn"
+            ]
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LabelingRoleDefaultPolicy1F15DB4F",
+    "Roles": [
+     {
+      "Ref": "LabelingRole4E792483"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Role/DefaultPolicy/Resource"
+   }
+  },
+  "Labeling805EA058": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "DefinitionString": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"StartAt\":\"CheckMissingLabels\",\"States\":{\"CheckMissingLabels\":{\"Next\":\"Missing Labels?\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "LabelingPipelineAssetsCheckMissingLabelsFunction98BFCA2E",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"}},\"Missing Labels?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.Payload.missing_labels_count\",\"NumericEquals\":0,\"Next\":\"Labeling Pipeline execution succeeded\"}],\"Default\":\"StartLabelingJob\"},\"StartLabelingJob\":{\"Next\":\"Waiting for - LabelingJob - completion\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "LabelingPipelineAssetsRunLabelingJobLambda8A042C03",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"executionId.$\":\"$$.Execution.Id\",\"request.$\":\"$\"}}},\"Waiting for - LabelingJob - completion\":{\"Type\":\"Wait\",\"Seconds\":30,\"Next\":\"Get LabelingJob status\"},\"Get LabelingJob status\":{\"Next\":\"LabelingJob Complete?\",\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::aws-sdk:sagemaker:describeLabelingJob\",\"Parameters\":{\"LabelingJobName.$\":\"$.LabelingJobName\"}},\"LabelingJob Complete?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Failed\",\"Next\":\"Labeling Pipeline execution failed\"},{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Stopped\",\"Next\":\"Labeling Pipeline execution failed\"},{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Completed\",\"Next\":\"StartVerificationJob\"}],\"Default\":\"Waiting for - LabelingJob - completion\"},\"Labeling Pipeline execution failed\":{\"Type\":\"Fail\"},\"VerificationJob Complete?\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Failed\",\"Next\":\"Labeling Pipeline execution failed\"},{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Stopped\",\"Next\":\"Labeling Pipeline execution failed\"},{\"Variable\":\"$.LabelingJobStatus\",\"StringEquals\":\"Completed\",\"Next\":\"UpdateLabelsInFeatureStore\"}],\"Default\":\"Waiting for - VerificationJob - completion\"},\"Get VerificationJob status\":{\"Next\":\"VerificationJob Complete?\",\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::aws-sdk:sagemaker:describeLabelingJob\",\"Parameters\":{\"LabelingJobName.$\":\"$.LabelingJobName\"}},\"Waiting for - VerificationJob - completion\":{\"Type\":\"Wait\",\"Seconds\":30,\"Next\":\"Get VerificationJob status\"},\"StartVerificationJob\":{\"Next\":\"Waiting for - VerificationJob - completion\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"OutputPath\":\"$.Payload\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "LabelingPipelineAssetsRunVerificationJobLambdaE6F47CCB",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"executionId.$\":\"$$.Execution.Id\",\"input_manifest.$\":\"$.LabelingJobOutput.OutputDatasetS3Uri\"}}},\"UpdateLabelsInFeatureStore\":{\"Next\":\"Labeling Pipeline execution succeeded\",\"Retry\":[{\"ErrorEquals\":[\"Lambda.ClientExecutionTimeoutException\",\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Type\":\"Task\",\"Resource\":\"arn:",
+       {
+        "Ref": "AWS::Partition"
+       },
+       ":states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "LabelingPipelineAssetsUpdateFeatureStoreLambda69B52800",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"executionId.$\":\"$$.Execution.Id\",\"verification_job_output.$\":\"$.LabelingJobOutput.OutputDatasetS3Uri\"}}},\"Labeling Pipeline execution succeeded\":{\"Type\":\"Succeed\"}}}"
+      ]
+     ]
+    },
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "LabelingRole4E792483",
+      "Arn"
+     ]
+    },
+    "StateMachineName": "Quality-Inspection-Labeling"
+   },
+   "DependsOn": [
+    "LabelingRoleDefaultPolicy1F15DB4F",
+    "LabelingRole4E792483"
+   ],
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Resource"
+   }
+  },
+  "LabelingExecutionPipelineRole1277090B": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Role/Resource"
+   }
+  },
+  "LabelingExecutionPipelineRoleDefaultPolicyBE05F5DE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleA3919AB1",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleB1A1840E",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LabelingExecutionPipelineRoleDefaultPolicyBE05F5DE",
+    "Roles": [
+     {
+      "Ref": "LabelingExecutionPipelineRole1277090B"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "LabelingExecutionPipeline722EBA15": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "ArtifactStore": {
+     "Location": {
+      "Fn::ImportValue": "mlopsDataBucket"
+     },
+     "Type": "S3"
+    },
+    "Name": "MlOpsEdge-Labeling-Pipeline",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "LabelingExecutionPipelineRole1277090B",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "AWS",
+         "Provider": "CodeCommit",
+         "Version": "1"
+        },
+        "Configuration": {
+         "RepositoryName": "mlops-at-edge-for-quality-inspection",
+         "BranchName": "main",
+         "PollForSourceChanges": false
+        },
+        "Name": "CodeCommit",
+        "OutputArtifacts": [
+         {
+          "Name": "Artifact_Source_CodeCommit"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleA3919AB1",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Invoke",
+         "Owner": "AWS",
+         "Provider": "StepFunctions",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StateMachineArn": {
+          "Ref": "Labeling805EA058"
+         },
+         "Input": "{}",
+         "InputType": "Literal"
+        },
+        "Name": "Invoke",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleB1A1840E",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "RunLabelingPipeline"
+     }
+    ]
+   },
+   "DependsOn": [
+    "LabelingExecutionPipelineRoleDefaultPolicyBE05F5DE",
+    "LabelingExecutionPipelineRole1277090B"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Resource"
+   }
+  },
+  "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleA3919AB1": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Source/CodeCommit/CodePipelineActionRole/Resource"
+   }
+  },
+  "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicy91632709": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codecommit:GetBranch",
+        "codecommit:GetCommit",
+        "codecommit:UploadArchive",
+        "codecommit:GetUploadArchiveStatus",
+        "codecommit:CancelUploadArchive"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codecommit:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":mlops-at-edge-for-quality-inspection"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicy91632709",
+    "Roles": [
+     {
+      "Ref": "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleA3919AB1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleB1A1840E": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/RunLabelingPipeline/Invoke/CodePipelineActionRole/Resource"
+   }
+  },
+  "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleDefaultPolicy5D0844FE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "states:StartExecution",
+        "states:DescribeStateMachine"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Ref": "Labeling805EA058"
+       }
+      },
+      {
+       "Action": "states:DescribeExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Fn::Select": [
+            1,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Ref": "Labeling805EA058"
+              }
+             ]
+            }
+           ]
+          },
+          ":states:",
+          {
+           "Fn::Select": [
+            3,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Ref": "Labeling805EA058"
+              }
+             ]
+            }
+           ]
+          },
+          ":",
+          {
+           "Fn::Select": [
+            4,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Ref": "Labeling805EA058"
+              }
+             ]
+            }
+           ]
+          },
+          ":execution:",
+          {
+           "Fn::Select": [
+            6,
+            {
+             "Fn::Split": [
+              ":",
+              {
+               "Ref": "Labeling805EA058"
+              }
+             ]
+            }
+           ]
+          },
+          ":*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleDefaultPolicy5D0844FE",
+    "Roles": [
+     {
+      "Ref": "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleB1A1840E"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/RunLabelingPipeline/Invoke/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/1VRTW/CMAz9LdzTAGWatNv4EBLS0FA57IhMaqhpmkRNAkJV/vvSL42d/Gw/v9gvKf945006gYdNRF4mks68OToQJYulU0NQ8SbTEtn6orp40JLEs017FJiE6pwDbzZalFjvKrji1ivhSKuWNuLAUNQnsBad5S/cZVtpezxDoy05XT9XYJHZxcjuKXbBVz6Oub7r0FwGaRt39kIg5mwLJNm60CSQ/QA5Fo9xuAdRkOqOeM3Df5WTA1tGra/uoJ266zKOgJTLhz1ifY+agQmdoyGDMs7z5jCgzo8Bh8AytNrXcYVu8/jkldS15Xx7Z7zrzBwpEa+1ymn0aw/GRHZgaQLSFMBnk8/he6Zt7O1OzNMVWg2UQ5f8Oa3ikvxmp/f5G09nfD65WaKk9spRhTzr4y82sfh3/AEAAA=="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Outputs": {
+  "LabelingPipelineNameExport": {
+   "Value": {
+    "Ref": "LabelingExecutionPipeline722EBA15"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Mappings": {
+  "ServiceprincipalMap": {
+   "af-south-1": {
+    "states": "states.af-south-1.amazonaws.com"
+   },
+   "ap-east-1": {
+    "states": "states.ap-east-1.amazonaws.com"
+   },
+   "ap-northeast-1": {
+    "states": "states.ap-northeast-1.amazonaws.com"
+   },
+   "ap-northeast-2": {
+    "states": "states.ap-northeast-2.amazonaws.com"
+   },
+   "ap-northeast-3": {
+    "states": "states.ap-northeast-3.amazonaws.com"
+   },
+   "ap-south-1": {
+    "states": "states.ap-south-1.amazonaws.com"
+   },
+   "ap-south-2": {
+    "states": "states.ap-south-2.amazonaws.com"
+   },
+   "ap-southeast-1": {
+    "states": "states.ap-southeast-1.amazonaws.com"
+   },
+   "ap-southeast-2": {
+    "states": "states.ap-southeast-2.amazonaws.com"
+   },
+   "ap-southeast-3": {
+    "states": "states.ap-southeast-3.amazonaws.com"
+   },
+   "ap-southeast-4": {
+    "states": "states.ap-southeast-4.amazonaws.com"
+   },
+   "ca-central-1": {
+    "states": "states.ca-central-1.amazonaws.com"
+   },
+   "cn-north-1": {
+    "states": "states.cn-north-1.amazonaws.com"
+   },
+   "cn-northwest-1": {
+    "states": "states.cn-northwest-1.amazonaws.com"
+   },
+   "eu-central-1": {
+    "states": "states.eu-central-1.amazonaws.com"
+   },
+   "eu-central-2": {
+    "states": "states.eu-central-2.amazonaws.com"
+   },
+   "eu-north-1": {
+    "states": "states.eu-north-1.amazonaws.com"
+   },
+   "eu-south-1": {
+    "states": "states.eu-south-1.amazonaws.com"
+   },
+   "eu-south-2": {
+    "states": "states.eu-south-2.amazonaws.com"
+   },
+   "eu-west-1": {
+    "states": "states.eu-west-1.amazonaws.com"
+   },
+   "eu-west-2": {
+    "states": "states.eu-west-2.amazonaws.com"
+   },
+   "eu-west-3": {
+    "states": "states.eu-west-3.amazonaws.com"
+   },
+   "il-central-1": {
+    "states": "states.il-central-1.amazonaws.com"
+   },
+   "me-central-1": {
+    "states": "states.me-central-1.amazonaws.com"
+   },
+   "me-south-1": {
+    "states": "states.me-south-1.amazonaws.com"
+   },
+   "sa-east-1": {
+    "states": "states.sa-east-1.amazonaws.com"
+   },
+   "us-east-1": {
+    "states": "states.us-east-1.amazonaws.com"
+   },
+   "us-east-2": {
+    "states": "states.us-east-2.amazonaws.com"
+   },
+   "us-gov-east-1": {
+    "states": "states.us-gov-east-1.amazonaws.com"
+   },
+   "us-gov-west-1": {
+    "states": "states.us-gov-west-1.amazonaws.com"
+   },
+   "us-iso-east-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-iso-west-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-isob-east-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-west-1": {
+    "states": "states.us-west-1.amazonaws.com"
+   },
+   "us-west-2": {
+    "states": "states.us-west-2.amazonaws.com"
+   }
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

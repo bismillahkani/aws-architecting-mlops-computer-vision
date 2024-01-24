@@ -1,0 +1,208 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "MLOps-Init-Stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MLOps-Init-Stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MLOps-Init-Stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MLOps-Init-Stack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/5390b181999b9a5473abfd4a665a912d260d0746f812c9387c513af886867927.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MLOps-Init-Stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MLOps-Init-Stack.assets"
+      ],
+      "metadata": {
+        "/MLOps-Init-Stack/Repository/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Repository22E53BBD"
+          }
+        ],
+        "/MLOps-Init-Stack/LabelingDataBucket/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingDataBucket26F0EA0B"
+          }
+        ],
+        "/MLOps-Init-Stack/LabelingDataBucket/Policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingDataBucketPolicy60C0E3F3"
+          }
+        ],
+        "/MLOps-Init-Stack/LabelingDataBucket/AutoDeleteObjectsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingDataBucketAutoDeleteObjectsCustomResourceA06253A3"
+          }
+        ],
+        "/MLOps-Init-Stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderRole3B1BD092"
+          }
+        ],
+        "/MLOps-Init-Stack/Custom::S3AutoDeleteObjectsCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomS3AutoDeleteObjectsCustomResourceProviderHandler9D90184F"
+          }
+        ],
+        "/MLOps-Init-Stack/FeatureGroupRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "FeatureGroupRoleE99525D3"
+          }
+        ],
+        "/MLOps-Init-Stack/AssetInit/AwsCliLayer/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetInitAwsCliLayer64C92678"
+          }
+        ],
+        "/MLOps-Init-Stack/AssetInit/CustomResource-1024MiB/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "AssetInitCustomResource1024MiB40BFE9D0"
+          }
+        ],
+        "/MLOps-Init-Stack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiB/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiBServiceRole739949D8"
+          }
+        ],
+        "/MLOps-Init-Stack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiB/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiBServiceRoleDefaultPolicy0801355D"
+          }
+        ],
+        "/MLOps-Init-Stack/Custom::CDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiB/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C1024MiBB049752D"
+          }
+        ],
+        "/MLOps-Init-Stack/MyCfnFeatureGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCfnFeatureGroup"
+          }
+        ],
+        "/MLOps-Init-Stack/SeedLabelsToFeatureStoreFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SeedLabelsToFeatureStoreFunction835A2F43"
+          }
+        ],
+        "/MLOps-Init-Stack/SeedLabelsToFeatureStoreFunction/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SeedLabelsToFeatureStoreFunctionLogRetention4F4FE979"
+          }
+        ],
+        "/MLOps-Init-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/MLOps-Init-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/MLOps-Init-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/MLOps-Init-Stack/SeedLabelsCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "SeedLabelsCustomResource"
+          }
+        ],
+        "/MLOps-Init-Stack/MyCfnModelPackageGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MyCfnModelPackageGroup"
+          }
+        ],
+        "/MLOps-Init-Stack/modelPackageGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "modelPackageGroup"
+          }
+        ],
+        "/MLOps-Init-Stack/mlopsfeatureGroup": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mlopsfeatureGroup"
+          }
+        ],
+        "/MLOps-Init-Stack/mlopsDataBucket": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "mlopsDataBucket"
+          }
+        ],
+        "/MLOps-Init-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MLOps-Init-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MLOps-Init-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MLOps-Init-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MLOps-Init-Stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

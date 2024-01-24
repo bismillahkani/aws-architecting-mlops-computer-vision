@@ -1,0 +1,227 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "assembly-MLOps-Inference-Infra-Stack-MLOps-Inference": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-MLOps-Inference-Infra-Stack-MLOps-Inference",
+        "displayName": "MLOps-Inference-Infra-Stack/MLOps-Inference"
+      }
+    },
+    "MLOps-Inference-Infra-Stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MLOps-Inference-Infra-Stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MLOps-Inference-Infra-Stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MLOps-Inference-Infra-Stack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/57c8277dab4ec37973476f3e81d81f9bdae0d8c6a2abca3e96e161e68beb027b.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MLOps-Inference-Infra-Stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MLOps-Inference-Infra-Stack.assets"
+      ],
+      "metadata": {
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineRole56ED428C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineRoleDefaultPolicy9E8721B7"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipeline0D63AC3F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Source/mlops-at-edge-for-quality-inspection/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineSourcemlopsatedgeforqualityinspectionCodePipelineActionRole60F46773"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Source/mlops-at-edge-for-quality-inspection/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineSourcemlopsatedgeforqualityinspectionCodePipelineActionRoleDefaultPolicy9F7B2C5E"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineEventsRoleAEC039AA"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineEventsRoleDefaultPolicyBFC3E46D"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectRoleB3C83F03"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectRoleDefaultPolicy011131E6"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectCF5D77DD"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/MLOps-Inference/InvokeInferencePipeline/InvokeInferencePipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsInferenceInvokeInferencePipelineRoleCFC51880"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/MLOps-Inference/InvokeInferencePipeline/InvokeInferencePipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsInferenceInvokeInferencePipelineRoleDefaultPolicyE5BD1316"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/LabelingPipeline/MLOps-Inference/InvokeInferencePipeline/InvokeInferencePipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsInferenceInvokeInferencePipeline1093DF6D"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/ImportedRepo/MLOpsInferenceInfraStackLabelingPipeline631FC403-main-EventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedRepoMLOpsInferenceInfraStackLabelingPipeline631FC403mainEventRuleF94ABB72"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/CodeBuildActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineCodeBuildActionRole9812E8DC"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/CodeBuildActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineCodeBuildActionRoleDefaultPolicy62E2EBAB"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/UpdatePipeline/SelfMutation/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineUpdatePipelineSelfMutationRole4B26975E"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineUpdatePipelineSelfMutationRoleDefaultPolicy5AF75757"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/UpdatePipeline/SelfMutation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineUpdatePipelineSelfMutation03DB6D2A"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileRole48E10317"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileRoleDefaultPolicy824FC702"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileAsset1F4E9557D"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileAsset2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileAsset2ECE27E11"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileAsset3/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileAsset3F5EEFE24"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MlOpsEdge-Inference-Pipeline/Assets/FileAsset4/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "MlOpsEdgeInferencePipelineAssetsFileAsset4960EDB6F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MLOps-Inference-Infra-Stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}

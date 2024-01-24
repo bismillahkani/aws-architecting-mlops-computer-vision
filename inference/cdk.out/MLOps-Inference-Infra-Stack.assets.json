@@ -1,0 +1,19 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "57c8277dab4ec37973476f3e81d81f9bdae0d8c6a2abca3e96e161e68beb027b": {
+      "source": {
+        "path": "MLOps-Inference-Infra-Stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "57c8277dab4ec37973476f3e81d81f9bdae0d8c6a2abca3e96e161e68beb027b.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

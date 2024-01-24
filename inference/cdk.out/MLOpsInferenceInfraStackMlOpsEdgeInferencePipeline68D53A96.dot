@@ -1,0 +1,62 @@
+digraph G {
+  # Arrows represent an "unlocks" relationship (opposite of dependency). So chosen
+  # because the layout looks more natural that way.
+  # To represent subgraph dependencies, subgraphs are represented by BEGIN/END nodes.
+  # To render: `dot -Tsvg MLOpsInferenceInfraStackMlOpsEdgeInferencePipeline68D53A96.dot > graph.svg`, open in a browser.
+  node [shape="box"];
+"BEGIN Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Build.Synth";
+"Source.mlops-at-edge-for-quality-inspection" -> "Build.Synth";
+"BEGIN Build" -> "Build.Synth";
+"Build.Synth" -> "END Build";
+"BEGIN UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate";
+"Build.Synth" -> "UpdatePipeline.SelfMutate";
+"BEGIN UpdatePipeline" -> "UpdatePipeline.SelfMutate";
+"UpdatePipeline.SelfMutate" -> "END UpdatePipeline";
+"BEGIN Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Assets.FileAsset1";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset1";
+"Assets.FileAsset2";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset2";
+"Assets.FileAsset3";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset3";
+"Assets.FileAsset4";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset4";
+"BEGIN Assets" -> "Assets.FileAsset1";
+"BEGIN Assets" -> "Assets.FileAsset2";
+"BEGIN Assets" -> "Assets.FileAsset3";
+"BEGIN Assets" -> "Assets.FileAsset4";
+"Assets.FileAsset1" -> "END Assets";
+"Assets.FileAsset2" -> "END Assets";
+"Assets.FileAsset3" -> "END Assets";
+"Assets.FileAsset4" -> "END Assets";
+"BEGIN MLOps-Inference" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END MLOps-Inference" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate" -> "BEGIN MLOps-Inference";
+"BEGIN MLOps-Inference.Statemachine-Pipeline-Stack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END MLOps-Inference.Statemachine-Pipeline-Stack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"MLOps-Inference.Statemachine-Pipeline-Stack.Deploy";
+"MLOps-Inference.Statemachine-Pipeline-Stack.Prepare" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Deploy";
+"MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"Build.Synth" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"Assets.FileAsset1" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"Assets.FileAsset2" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"Assets.FileAsset3" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"Assets.FileAsset4" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"BEGIN MLOps-Inference.Statemachine-Pipeline-Stack" -> "MLOps-Inference.Statemachine-Pipeline-Stack.Prepare";
+"MLOps-Inference.Statemachine-Pipeline-Stack.Deploy" -> "END MLOps-Inference.Statemachine-Pipeline-Stack";
+"MLOps-Inference.InvokeInferencePipeline";
+"MLOps-Inference.Statemachine-Pipeline-Stack.Deploy" -> "MLOps-Inference.InvokeInferencePipeline";
+"END MLOps-Inference.Statemachine-Pipeline-Stack" -> "MLOps-Inference.InvokeInferencePipeline";
+"BEGIN MLOps-Inference" -> "BEGIN MLOps-Inference.Statemachine-Pipeline-Stack";
+"MLOps-Inference.InvokeInferencePipeline" -> "END MLOps-Inference";
+"BEGIN Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Source.mlops-at-edge-for-quality-inspection";
+"BEGIN Source" -> "Source.mlops-at-edge-for-quality-inspection";
+"Source.mlops-at-edge-for-quality-inspection" -> "END Source";
+}

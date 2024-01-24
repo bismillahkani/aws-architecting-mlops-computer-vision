@@ -1,0 +1,19 @@
+{
+  "version": "34.0.0",
+  "files": {
+    "d63f2593339707811686f254c32f2b4663d65d214d6dc2e3feba6cc82695ca0a": {
+      "source": {
+        "path": "MLOps-Labeling-Infra-Stack.template.json",
+        "packaging": "file"
+      },
+      "destinations": {
+        "current_account-current_region": {
+          "bucketName": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}",
+          "objectKey": "d63f2593339707811686f254c32f2b4663d65d214d6dc2e3feba6cc82695ca0a.json",
+          "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-file-publishing-role-${AWS::AccountId}-${AWS::Region}"
+        }
+      }
+    }
+  },
+  "dockerImages": {}
+}

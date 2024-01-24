@@ -1,0 +1,461 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/ab008b3a48a6064148f34b2012fe92bf6a9a269eb020b824c616af7d3c2efe32.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "MLOps-Inference-Statemachine-Pipeline-Stack"
+      },
+      "dependencies": [
+        "MLOpsInferenceInfraStackMLOpsInferenceStatemachinePipelineStackF123ED94.assets"
+      ],
+      "metadata": {
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/thing-edge-inference": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2Constructgreengrassprerequisitesthingedgeinference016966A2"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-policy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2Constructgreengrassprerequisitestokenexchangeiampolicy6B7059F7"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/GGIoTRoleAlias": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/IoTPolicy": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassprerequisitesIoTPolicy324287F6"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/allowAssumeTokenExchangeRole": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassprerequisitesallowAssumeTokenExchangeRoleBA26B9B2"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcB798EE9B"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1Subnet8C28895C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTable48E9702F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTableAssociationD72D3428"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1DefaultRouteC65ACA04"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1EIP14D78BF4"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet1NATGatewayFA70FC03"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2Subnet20567618"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTable15EC23BC"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTableAssociationD5EFC0A3"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2DefaultRoute756CBDDE"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/EIP": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2EIPAA1C6F1C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/NATGateway": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPublicSubnet2NATGateway5DEC8123"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet1Subnet01573773"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableD641DADB"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableAssociation34FE6481"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet1DefaultRoute06744BDF"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/Subnet": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet2Subnet3EC4031C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/RouteTable": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableFE31CB72"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/RouteTableAssociation": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableAssociation4C093020"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/DefaultRoute": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcPrivateSubnet2DefaultRoute42A8A7AE"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/IGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcIGWB5DDB17B"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/VPCGW": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcVPCGWB6EF3880"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/RestrictDefaultSecurityGroupCustomResource/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructvpcRestrictDefaultSecurityGroupCustomResourceAD5A5A1F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/gg-instance-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2Constructgginstancerole4EEB28B2"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/gg-instance-role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgginstanceroleDefaultPolicyF13820E0"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/InstanceSecurityGroup/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassinstanceInstanceSecurityGroupABFEAF39"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/InstanceProfile": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassinstanceInstanceProfile882AC483"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/AmiMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassinstanceAmiMap86ED5F49"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "GreengrassOnEc2ConstructgreengrassinstanceCEF37A5F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InferenceComponentBuildConstructGgInferenceComponentBuildRoleC309EDC2"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InferenceComponentBuildConstructGgInferenceComponentBuildRoleDefaultPolicyB30730B1"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/edge-packaging-sfn-exec-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructedgepackagingsfnexecrole4C3383E4"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/edge-packaging-lambda-exec-role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/LatestComponentVersion/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructLatestComponentVersion53013711"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/LatestComponentVersion/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructLatestComponentVersionLogRetention5FB8F32C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/ModelBlobURL/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructModelBlobURLA8899F0B"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/ModelBlobURL/LogRetention/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructModelBlobURLLogRetention898F836A"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/EdgeDeploymentOrchestrationStepFunction": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeDeploymentOrchestrationConstructEdgeDeploymentOrchestrationStepFunction8A887680"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleBA182BFA"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleDefaultPolicyBF45531D"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipeline8CAF4F0E"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Source/CodeCommit/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleB1D93266"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyE183E87C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/CreateNewInferenceComponentVersion/CodeBuild/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleE6BD7553"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/CreateNewInferenceComponentVersion/CodeBuild/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleDefaultPolicy862ED036"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/PackageAndDeployComponentsToEdgeDevice/Invoke/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRole047A6E97"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/PackageAndDeployComponentsToEdgeDevice/Invoke/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRoleDefaultPolicy5B23E56A"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleD1DE805F"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleDefaultPolicyE84229D7"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/EdgeCiCdPipelineNameExport": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructEdgeCiCdPipelineNameExport7EA77F5C"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceTriggerOnNewModel/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "EdgeCiCdPipelineConstructInferenceTriggerOnNewModel37999F13"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/Service-principalMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceprincipalMap"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack"
+    }
+  }
+}

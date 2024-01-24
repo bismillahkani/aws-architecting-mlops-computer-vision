@@ -1,0 +1,173 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706.template.json",
+        "validateOnSynth": true,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/bf97b6a4257339eb5693cc853d2a0552910ce26adec98caa636d13a027cccfbc.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        },
+        "stackName": "MLOps-Labeling-Statemachine-Pipeline-Stack"
+      },
+      "dependencies": [
+        "MLOpsLabelingInfraStackMLOpsLabelingStatemachinePipelineStack771C4706.assets"
+      ],
+      "metadata": {
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/StepFunctionsExecutionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsStepFunctionsExecutionRoleDE8A9944"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/StepFunctionsExecutionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsStepFunctionsExecutionRoleDefaultPolicyEB62C3E1"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/CheckMissingLabelsFunction/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsCheckMissingLabelsFunction98BFCA2E"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/RunVerificationJobLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsRunVerificationJobLambdaE6F47CCB"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/RunLabelingJobLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsRunLabelingJobLambda8A042C03"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineAssets/UpdateFeatureStoreLambda/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineAssetsUpdateFeatureStoreLambda69B52800"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingRole4E792483"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingRoleDefaultPolicy1F15DB4F"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Labeling/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Labeling805EA058"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineRole1277090B"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineRoleDefaultPolicyBE05F5DE"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipeline722EBA15"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Source/CodeCommit/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleA3919AB1"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicy91632709"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/RunLabelingPipeline/Invoke/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleB1A1840E"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingExecutionPipeline/RunLabelingPipeline/Invoke/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingExecutionPipelineRunLabelingPipelineInvokeCodePipelineActionRoleDefaultPolicy5D0844FE"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/LabelingPipelineNameExport": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineNameExport"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/Service-principalMap": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ServiceprincipalMap"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MLOps-Labeling-Infra-Stack/MLOps-Labeling/Statemachine-Pipeline-Stack"
+    }
+  }
+}

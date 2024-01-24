@@ -1,0 +1,2876 @@
+{
+ "Resources": {
+  "GreengrassOnEc2Constructgreengrassprerequisitesthingedgeinference016966A2": {
+   "Type": "AWS::IoT::Thing",
+   "Properties": {
+    "ThingName": "EdgeThing-MLOps-Inference-Statemachine-Pipeline-Stack"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/thing-edge-inference"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "iot.amazonaws.com"
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "credentials.iot.amazonaws.com"
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sagemaker.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AmazonSageMakerEdgeDeviceFleetPolicy"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonS3FullAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-role/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:PutObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE",
+    "Roles": [
+     {
+      "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-role/DefaultPolicy/Resource"
+   }
+  },
+  "GreengrassOnEc2Constructgreengrassprerequisitestokenexchangeiampolicy6B7059F7": {
+   "Type": "AWS::IAM::ManagedPolicy",
+   "Properties": {
+    "Description": "",
+    "ManagedPolicyName": {
+     "Fn::Join": [
+      "",
+      [
+       {
+        "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+       },
+       "Access"
+      ]
+     ]
+    },
+    "Path": "/",
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "iot:DescribeCertificate",
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents",
+        "logs:DescribeLogStreams",
+        "iot:Connect",
+        "iot:Publish",
+        "iot:Subscribe",
+        "iot:Receive",
+        "s3:GetBucketLocation"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": "s3:GetObject",
+       "Effect": "Allow",
+       "Resource": "arn:aws:s3:::greengrassstack-dev-modelartifactbuckettempb4b728-1a7jzrtqoktbd/*"
+      },
+      {
+       "Action": [
+        "iam:GetRole",
+        "iam:PassRole"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:iam::",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":role/",
+          {
+           "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "Roles": [
+     {
+      "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/token-exchange-iam-policy/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559": {
+   "Type": "AWS::IoT::RoleAlias",
+   "Properties": {
+    "RoleAlias": "BlogPostGGCoreTokenExchangeRoleAlias",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3",
+      "Arn"
+     ]
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/GGIoTRoleAlias"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassprerequisitesIoTPolicy324287F6": {
+   "Type": "AWS::IoT::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Effect": "Allow",
+       "Action": [
+        "iot:Publish",
+        "iot:Subscribe",
+        "iot:Receive",
+        "iot:Connect",
+        "greengrass:*"
+       ],
+       "Resource": [
+        "*"
+       ]
+      }
+     ]
+    },
+    "PolicyName": "BlogPostGGV2IoTThingPolicy"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/IoTPolicy"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassprerequisitesallowAssumeTokenExchangeRoleBA26B9B2": {
+   "Type": "AWS::IoT::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Effect": "Allow",
+       "Action": "iot:AssumeRoleWithCertificate",
+       "Resource": {
+        "Fn::GetAtt": [
+         "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559",
+         "RoleAliasArn"
+        ]
+       }
+      }
+     ]
+    },
+    "PolicyName": "GreengrassTESCertificatePolicyBlogPostGGCoreTokenExchangeRoleAlias"
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-prerequisites/allowAssumeTokenExchangeRole"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcB798EE9B": {
+   "Type": "AWS::EC2::VPC",
+   "Properties": {
+    "CidrBlock": "10.0.0.0/16",
+    "EnableDnsHostnames": true,
+    "EnableDnsSupport": true,
+    "InstanceTenancy": "default",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1Subnet8C28895C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.0.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/Subnet"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTable48E9702F": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/RouteTable"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTableAssociationD72D3428": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTable48E9702F"
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet1Subnet8C28895C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/RouteTableAssociation"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1DefaultRouteC65ACA04": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "GreengrassOnEc2ConstructvpcIGWB5DDB17B"
+    },
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTable48E9702F"
+    }
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructvpcVPCGWB6EF3880"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/DefaultRoute"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1EIP14D78BF4": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/EIP"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet1NATGatewayFA70FC03": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "GreengrassOnEc2ConstructvpcPublicSubnet1EIP14D78BF4",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet1Subnet8C28895C"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1"
+     }
+    ]
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructvpcPublicSubnet1DefaultRouteC65ACA04",
+    "GreengrassOnEc2ConstructvpcPublicSubnet1RouteTableAssociationD72D3428"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet1/NATGateway"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2Subnet20567618": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.64.0/18",
+    "MapPublicIpOnLaunch": true,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Public"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Public"
+     },
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/Subnet"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTable15EC23BC": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/RouteTable"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTableAssociationD5EFC0A3": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTable15EC23BC"
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet2Subnet20567618"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/RouteTableAssociation"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2DefaultRoute756CBDDE": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "GatewayId": {
+     "Ref": "GreengrassOnEc2ConstructvpcIGWB5DDB17B"
+    },
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTable15EC23BC"
+    }
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructvpcVPCGWB6EF3880"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/DefaultRoute"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2EIPAA1C6F1C": {
+   "Type": "AWS::EC2::EIP",
+   "Properties": {
+    "Domain": "vpc",
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/EIP"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPublicSubnet2NATGateway5DEC8123": {
+   "Type": "AWS::EC2::NatGateway",
+   "Properties": {
+    "AllocationId": {
+     "Fn::GetAtt": [
+      "GreengrassOnEc2ConstructvpcPublicSubnet2EIPAA1C6F1C",
+      "AllocationId"
+     ]
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet2Subnet20567618"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructvpcPublicSubnet2DefaultRoute756CBDDE",
+    "GreengrassOnEc2ConstructvpcPublicSubnet2RouteTableAssociationD5EFC0A3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PublicSubnet2/NATGateway"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet1Subnet01573773": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.128.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/Subnet"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableD641DADB": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/RouteTable"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableAssociation34FE6481": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableD641DADB"
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet1Subnet01573773"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/RouteTableAssociation"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet1DefaultRoute06744BDF": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet1NATGatewayFA70FC03"
+    },
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet1RouteTableD641DADB"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet1/DefaultRoute"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet2Subnet3EC4031C": {
+   "Type": "AWS::EC2::Subnet",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      1,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "CidrBlock": "10.0.192.0/18",
+    "MapPublicIpOnLaunch": false,
+    "Tags": [
+     {
+      "Key": "aws-cdk:subnet-name",
+      "Value": "Private"
+     },
+     {
+      "Key": "aws-cdk:subnet-type",
+      "Value": "Private"
+     },
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/Subnet"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableFE31CB72": {
+   "Type": "AWS::EC2::RouteTable",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/RouteTable"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableAssociation4C093020": {
+   "Type": "AWS::EC2::SubnetRouteTableAssociation",
+   "Properties": {
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableFE31CB72"
+    },
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet2Subnet3EC4031C"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/RouteTableAssociation"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcPrivateSubnet2DefaultRoute42A8A7AE": {
+   "Type": "AWS::EC2::Route",
+   "Properties": {
+    "DestinationCidrBlock": "0.0.0.0/0",
+    "NatGatewayId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPublicSubnet2NATGateway5DEC8123"
+    },
+    "RouteTableId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet2RouteTableFE31CB72"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/PrivateSubnet2/DefaultRoute"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcIGWB5DDB17B": {
+   "Type": "AWS::EC2::InternetGateway",
+   "Properties": {
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/IGW"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcVPCGWB6EF3880": {
+   "Type": "AWS::EC2::VPCGatewayAttachment",
+   "Properties": {
+    "InternetGatewayId": {
+     "Ref": "GreengrassOnEc2ConstructvpcIGWB5DDB17B"
+    },
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/VPCGW"
+   }
+  },
+  "GreengrassOnEc2ConstructvpcRestrictDefaultSecurityGroupCustomResourceAD5A5A1F": {
+   "Type": "Custom::VpcRestrictDefaultSG",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E",
+      "Arn"
+     ]
+    },
+    "DefaultSecurityGroupId": {
+     "Fn::GetAtt": [
+      "GreengrassOnEc2ConstructvpcB798EE9B",
+      "DefaultSecurityGroup"
+     ]
+    },
+    "Account": {
+     "Ref": "AWS::AccountId"
+    }
+   },
+   "UpdateReplacePolicy": "Delete",
+   "DeletionPolicy": "Delete",
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/vpc/RestrictDefaultSecurityGroupCustomResource/Default"
+   }
+  },
+  "GreengrassOnEc2Constructgginstancerole4EEB28B2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "ec2.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMManagedInstanceCore"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/gg-instance-role/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructgginstanceroleDefaultPolicyF13820E0": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "iot:AddThingToThingGroup",
+        "iot:AttachPolicy",
+        "iot:AttachThingPrincipal",
+        "iot:CreateKeysAndCertificate",
+        "iot:CreatePolicy",
+        "iot:CreateRoleAlias",
+        "iot:CreateThing",
+        "iot:CreateThingGroup",
+        "iot:DescribeEndpoint",
+        "iot:DescribeRoleAlias",
+        "iot:DescribeThingGroup",
+        "sts:GetCallerIdentity",
+        "iot:GetPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "iam:AttachRolePolicy",
+        "iam:CreatePolicy",
+        "iam:CreateRole",
+        "iam:GetPolicy",
+        "iam:GetRole",
+        "iam:PassRole"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":role/",
+           {
+            "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:aws:iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":policy/",
+           {
+            "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+           },
+           "Access"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "greengrass:CreateDeployment",
+        "iot:CancelJob",
+        "iot:CreateJob",
+        "iot:DeleteThingShadow",
+        "iot:DescribeJob",
+        "iot:DescribeThing",
+        "iot:DescribeThingGroup",
+        "iot:GetThingShadow",
+        "iot:UpdateJob",
+        "iot:UpdateThingShadow"
+       ],
+       "Effect": "Allow",
+       "Resource": "*",
+       "Sid": "DeployDevTools"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "GreengrassOnEc2ConstructgginstanceroleDefaultPolicyF13820E0",
+    "Roles": [
+     {
+      "Ref": "GreengrassOnEc2Constructgginstancerole4EEB28B2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/gg-instance-role/DefaultPolicy/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassinstanceInstanceSecurityGroupABFEAF39": {
+   "Type": "AWS::EC2::SecurityGroup",
+   "Properties": {
+    "GroupDescription": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/InstanceSecurityGroup",
+    "SecurityGroupEgress": [
+     {
+      "CidrIp": "0.0.0.0/0",
+      "Description": "Allow all outbound traffic by default",
+      "IpProtocol": "-1"
+     }
+    ],
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Greengrass-MLOps-Inference-Statemachine-Pipeline-Stack"
+     }
+    ],
+    "VpcId": {
+     "Ref": "GreengrassOnEc2ConstructvpcB798EE9B"
+    }
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructgreengrassprerequisitesallowAssumeTokenExchangeRoleBA26B9B2",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesIoTPolicy324287F6",
+    "GreengrassOnEc2Constructgreengrassprerequisitesthingedgeinference016966A2",
+    "GreengrassOnEc2Constructgreengrassprerequisitestokenexchangeiampolicy6B7059F7",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/InstanceSecurityGroup/Resource"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassinstanceInstanceProfile882AC483": {
+   "Type": "AWS::IAM::InstanceProfile",
+   "Properties": {
+    "Roles": [
+     {
+      "Ref": "GreengrassOnEc2Constructgginstancerole4EEB28B2"
+     }
+    ]
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructgreengrassprerequisitesallowAssumeTokenExchangeRoleBA26B9B2",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesIoTPolicy324287F6",
+    "GreengrassOnEc2Constructgreengrassprerequisitesthingedgeinference016966A2",
+    "GreengrassOnEc2Constructgreengrassprerequisitestokenexchangeiampolicy6B7059F7",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/InstanceProfile"
+   }
+  },
+  "GreengrassOnEc2ConstructgreengrassinstanceCEF37A5F": {
+   "Type": "AWS::EC2::Instance",
+   "Properties": {
+    "AvailabilityZone": {
+     "Fn::Select": [
+      0,
+      {
+       "Fn::GetAZs": ""
+      }
+     ]
+    },
+    "BlockDeviceMappings": [
+     {
+      "DeviceName": "/dev/sda1",
+      "Ebs": {
+       "DeleteOnTermination": true,
+       "Encrypted": true,
+       "VolumeSize": 30,
+       "VolumeType": "gp3"
+      }
+     }
+    ],
+    "IamInstanceProfile": {
+     "Ref": "GreengrassOnEc2ConstructgreengrassinstanceInstanceProfile882AC483"
+    },
+    "ImageId": {
+     "Fn::FindInMap": [
+      "GreengrassOnEc2ConstructgreengrassinstanceAmiMap86ED5F49",
+      {
+       "Ref": "AWS::Region"
+      },
+      "ami"
+     ]
+    },
+    "InstanceType": "t3a.small",
+    "SecurityGroupIds": [
+     {
+      "Fn::GetAtt": [
+       "GreengrassOnEc2ConstructgreengrassinstanceInstanceSecurityGroupABFEAF39",
+       "GroupId"
+      ]
+     }
+    ],
+    "SubnetId": {
+     "Ref": "GreengrassOnEc2ConstructvpcPrivateSubnet1Subnet01573773"
+    },
+    "Tags": [
+     {
+      "Key": "Name",
+      "Value": "Greengrass-MLOps-Inference-Statemachine-Pipeline-Stack"
+     }
+    ],
+    "UserData": {
+     "Fn::Base64": {
+      "Fn::Join": [
+       "",
+       [
+        "#!/bin/bash\napt -y update\napt -y upgrade\napt -y install unzip python3-pip openjdk-11-jdk-headless build-essential libgl1-mesa-glx\ncurl -s https://d2s8p88vqu9w66.cloudfront.net/releases/greengrass-nucleus-latest.zip > greengrass-nucleus-latest.zip\nunzip greengrass-nucleus-latest.zip -d GreengrassCore && rm greengrass-nucleus-latest.zip\njava -Droot=\"/greengrass/v2\" -Dlog.store=FILE   -jar ./GreengrassCore/lib/Greengrass.jar   --aws-region ",
+        {
+         "Ref": "AWS::Region"
+        },
+        "   --thing-name EdgeThing-MLOps-Inference-Statemachine-Pipeline-Stack   --tes-role-name ",
+        {
+         "Ref": "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+        },
+        "  --tes-role-alias-name  BlogPostGGCoreTokenExchangeRoleAlias  --thing-policy-name  BlogPostGGV2IoTThingPolicy  --component-default-user ggc_user:ggc_group   --provision true   --setup-system-service true"
+       ]
+      ]
+     }
+    }
+   },
+   "DependsOn": [
+    "GreengrassOnEc2ConstructgginstanceroleDefaultPolicyF13820E0",
+    "GreengrassOnEc2Constructgginstancerole4EEB28B2",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesallowAssumeTokenExchangeRoleBA26B9B2",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesGGIoTRoleAliasB7098559",
+    "GreengrassOnEc2ConstructgreengrassprerequisitesIoTPolicy324287F6",
+    "GreengrassOnEc2Constructgreengrassprerequisitesthingedgeinference016966A2",
+    "GreengrassOnEc2Constructgreengrassprerequisitestokenexchangeiampolicy6B7059F7",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleDefaultPolicyF79DBEBE",
+    "GreengrassOnEc2ConstructgreengrassprerequisitestokenexchangeiamroleCE7921C3"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/GreengrassOnEc2Construct/greengrass-instance/Resource"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Version": "2012-10-17",
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ]
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+     }
+    ],
+    "Policies": [
+     {
+      "PolicyName": "Inline",
+      "PolicyDocument": {
+       "Version": "2012-10-17",
+       "Statement": [
+        {
+         "Effect": "Allow",
+         "Action": [
+          "ec2:AuthorizeSecurityGroupIngress",
+          "ec2:AuthorizeSecurityGroupEgress",
+          "ec2:RevokeSecurityGroupIngress",
+          "ec2:RevokeSecurityGroupEgress"
+         ],
+         "Resource": [
+          {
+           "Fn::Join": [
+            "",
+            [
+             "arn:",
+             {
+              "Ref": "AWS::Partition"
+             },
+             ":ec2:",
+             {
+              "Ref": "AWS::Region"
+             },
+             ":",
+             {
+              "Ref": "AWS::AccountId"
+             },
+             ":security-group/",
+             {
+              "Fn::GetAtt": [
+               "GreengrassOnEc2ConstructvpcB798EE9B",
+               "DefaultSecurityGroup"
+              ]
+             }
+            ]
+           ]
+          }
+         ]
+        }
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Role"
+   }
+  },
+  "CustomVpcRestrictDefaultSGCustomResourceProviderHandlerDC833E5E": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "4b996a3e5a083d5c78c6f30a8571a94fb7ec557eecbe54dbc065faba0d9076e6.zip"
+    },
+    "Timeout": 900,
+    "MemorySize": 128,
+    "Handler": "__entrypoint__.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0",
+      "Arn"
+     ]
+    },
+    "Runtime": "nodejs18.x",
+    "Description": "Lambda function for removing all inbound/outbound rules from the VPC default security group"
+   },
+   "DependsOn": [
+    "CustomVpcRestrictDefaultSGCustomResourceProviderRole26592FE0"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/Custom::VpcRestrictDefaultSGCustomResourceProvider/Handler",
+    "aws:asset:path": "../asset.4b996a3e5a083d5c78c6f30a8571a94fb7ec557eecbe54dbc065faba0d9076e6",
+    "aws:asset:property": "Code"
+   }
+  },
+  "InferenceComponentBuildConstructGgInferenceComponentBuildRoleC309EDC2": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codebuild.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Role/Resource"
+   }
+  },
+  "InferenceComponentBuildConstructGgInferenceComponentBuildRoleDefaultPolicyB30730B1": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":logs:",
+           {
+            "Ref": "AWS::Region"
+           },
+           ":",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":log-group:/aws/codebuild/",
+           {
+            "Ref": "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE"
+           },
+           ":*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codebuild:CreateReportGroup",
+        "codebuild:CreateReport",
+        "codebuild:UpdateReport",
+        "codebuild:BatchPutTestCases",
+        "codebuild:BatchPutCodeCoverages"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codebuild:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":report-group/",
+          {
+           "Ref": "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE"
+          },
+          "-*"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": [
+        "s3:GetObject",
+        "s3:PutObject",
+        "greengrass:ListComponents",
+        "greengrass:CreateComponentVersion",
+        "iot:DescribeThing",
+        "cloudformation:DescribeStacks"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      },
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "InferenceComponentBuildConstructGgInferenceComponentBuildRoleDefaultPolicyB30730B1",
+    "Roles": [
+     {
+      "Ref": "InferenceComponentBuildConstructGgInferenceComponentBuildRoleC309EDC2"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Role/DefaultPolicy/Resource"
+   }
+  },
+  "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE": {
+   "Type": "AWS::CodeBuild::Project",
+   "Properties": {
+    "Artifacts": {
+     "Type": "CODEPIPELINE"
+    },
+    "Cache": {
+     "Type": "NO_CACHE"
+    },
+    "EncryptionKey": "alias/aws/s3",
+    "Environment": {
+     "ComputeType": "BUILD_GENERAL1_SMALL",
+     "Image": "aws/codebuild/standard:1.0",
+     "ImagePullCredentialsType": "CODEBUILD",
+     "PrivilegedMode": false,
+     "Type": "LINUX_CONTAINER"
+    },
+    "ServiceRole": {
+     "Fn::GetAtt": [
+      "InferenceComponentBuildConstructGgInferenceComponentBuildRoleC309EDC2",
+      "Arn"
+     ]
+    },
+    "Source": {
+     "BuildSpec": "{\n  \"version\": \"0.2\",\n  \"phases\": {\n    \"pre_build\": {\n      \"commands\": [\n        \"pip3 install --upgrade awscli\"\n      ]\n    },\n    \"build\": {\n      \"commands\": [\n        \"cd inference/lib/assets/gg_components/;chmod +x buildNewInferenceComponentVersion.sh;./buildNewInferenceComponentVersion.sh\"\n      ]\n    }\n  },\n  \"environment\": {\n    \"buildImage\": {\n      \"type\": \"LINUX_CONTAINER\",\n      \"defaultComputeType\": \"BUILD_GENERAL1_SMALL\",\n      \"imageId\": \"aws/codebuild/amazonlinux2-x86_64-standard:3.0\",\n      \"imagePullPrincipalType\": \"CODEBUILD\"\n    },\n    \"localCache\": \"LOCAL_DOCKER_LAYER_CACHE\"\n  }\n}",
+     "Type": "CODEPIPELINE"
+    },
+    "TimeoutInMinutes": 30
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/InferenceComponentBuildConstruct/GgInferenceComponentBuild/Resource"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructedgepackagingsfnexecrole4C3383E4": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": {
+         "Fn::FindInMap": [
+          "ServiceprincipalMap",
+          {
+           "Ref": "AWS::Region"
+          },
+          "states"
+         ]
+        }
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "sagemaker.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonS3FullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSLambda_FullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSGreengrassFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSIoTFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/CloudWatchFullAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/edge-packaging-sfn-exec-role/Resource"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AWSGreengrassReadOnlyAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSSMFullAccess"
+       ]
+      ]
+     },
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/AmazonSageMakerFullAccess"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/edge-packaging-lambda-exec-role/Resource"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructLatestComponentVersion53013711": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "b6c6e09b0009ec70e751d07eee07d8bc8013b89d9629b70d0bb8e3d21ba9b246.zip"
+    },
+    "Environment": {
+     "Variables": {
+      "SAGEMAKER_ROLE_ARN": {
+       "Fn::GetAtt": [
+        "EdgeDeploymentOrchestrationConstructedgepackagingsfnexecrole4C3383E4",
+        "Arn"
+       ]
+      }
+     }
+    },
+    "Handler": "setup.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 15
+   },
+   "DependsOn": [
+    "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/LatestComponentVersion/Resource",
+    "aws:asset:path": "../asset.b6c6e09b0009ec70e751d07eee07d8bc8013b89d9629b70d0bb8e3d21ba9b246",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructLatestComponentVersionLogRetention5FB8F32C": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "EdgeDeploymentOrchestrationConstructLatestComponentVersion53013711"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 1
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/LatestComponentVersion/LogRetention/Resource"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructModelBlobURLA8899F0B": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "2d375818ea8674331ce31103b2f468c2d8578e774a05bc661ecceb7b3a24dbe6.zip"
+    },
+    "Handler": "setup.handler",
+    "Role": {
+     "Fn::GetAtt": [
+      "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62",
+      "Arn"
+     ]
+    },
+    "Runtime": "python3.11",
+    "Timeout": 15
+   },
+   "DependsOn": [
+    "EdgeDeploymentOrchestrationConstructedgepackaginglambdaexecrole2A8D0C62"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/ModelBlobURL/Resource",
+    "aws:asset:path": "../asset.2d375818ea8674331ce31103b2f468c2d8578e774a05bc661ecceb7b3a24dbe6",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructModelBlobURLLogRetention898F836A": {
+   "Type": "Custom::LogRetention",
+   "Properties": {
+    "ServiceToken": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A",
+      "Arn"
+     ]
+    },
+    "LogGroupName": {
+     "Fn::Join": [
+      "",
+      [
+       "/aws/lambda/",
+       {
+        "Ref": "EdgeDeploymentOrchestrationConstructModelBlobURLA8899F0B"
+       }
+      ]
+     ]
+    },
+    "RetentionInDays": 1
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/ModelBlobURL/LogRetention/Resource"
+   }
+  },
+  "EdgeDeploymentOrchestrationConstructEdgeDeploymentOrchestrationStepFunction8A887680": {
+   "Type": "AWS::StepFunctions::StateMachine",
+   "Properties": {
+    "DefinitionString": {
+     "Fn::Join": [
+      "",
+      [
+       "{\"StartAt\":\"Get model blob url\",\"States\":{\"Get model blob url\":{\"Type\":\"Task\",\"Next\":\"Get next Greengrass model component version\",\"Resource\":\"arn:aws:states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "EdgeDeploymentOrchestrationConstructModelBlobURLA8899F0B",
+         "Arn"
+        ]
+       },
+       "\",\"Payload.$\":\"$\"},\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\",\"Lambda.TooManyRequestsException\"],\"IntervalSeconds\":1,\"MaxAttempts\":3,\"BackoffRate\":2}],\"ResultSelector\":{\"value.$\":\"$.Payload.ModelUrl\"},\"ResultPath\":\"$.ModelUrl\"},\"Get next Greengrass model component version\":{\"Type\":\"Task\",\"Next\":\"Create new Greengrass model component\",\"Resource\":\"arn:aws:states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "EdgeDeploymentOrchestrationConstructLatestComponentVersion53013711",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"ComponentName\":\"com.qualityinspection.model\"}},\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"ResultSelector\":{\"value.$\":\"$.Payload.NextVersion\"},\"ResultPath\":\"$.ModelNextVersion\"},\"Create new Greengrass model component\":{\"Type\":\"Task\",\"Next\":\"Get IoT Thing ARN\",\"Parameters\":{\"InlineRecipe\":{\"RecipeFormatVersion\":\"2020-01-25\",\"ComponentName\":\"com.qualityinspection.model\",\"ComponentVersion.$\":\"$.ModelNextVersion.value\",\"ComponentPublisher\":\"AWS\",\"Manifests\":[{\"Platform\":{\"os\":\"*\",\"architecture\":\"*\"},\"Lifecycle\":{\"Install\":{\"Script\":\"tar xzf {artifacts:path}/model.tar.gz -C {artifacts:decompressedPath}\",\"RequiresPrivilege\":true},\"Upgrade\":{\"Script\":\"tar xzf {artifacts:path}/model.tar.gz -C {artifacts:decompressedPath}\",\"RequiresPrivilege\":true},\"Uninstall\":{\"Script\":\"rm -rf {artifacts:decompressedPath} {artifacts:path}\",\"RequiresPrivilege\":true}},\"Artifacts\":[{\"Uri.$\":\"$.ModelUrl.value\",\"Permission\":{\"Read\":\"OWNER\",\"Execute\":\"NONE\"}}]}]}},\"Resource\":\"arn:aws:states:::aws-sdk:greengrassv2:createComponentVersion\",\"ResultPath\":null},\"Get IoT Thing ARN\":{\"Type\":\"Task\",\"Next\":\"Get inference component version\",\"Parameters\":{\"ThingName\":\"EdgeThing-MLOps-Inference-Statemachine-Pipeline-Stack\"},\"Resource\":\"arn:aws:states:::aws-sdk:iot:describeThing\",\"ResultSelector\":{\"Arn.$\":\"$.ThingArn\",\"Name.$\":\"$.ThingName\"},\"ResultPath\":\"$.IotThing\"},\"Get inference component version\":{\"Type\":\"Task\",\"Resource\":\"arn:aws:states:::lambda:invoke\",\"Parameters\":{\"FunctionName\":\"",
+       {
+        "Fn::GetAtt": [
+         "EdgeDeploymentOrchestrationConstructLatestComponentVersion53013711",
+         "Arn"
+        ]
+       },
+       "\",\"Payload\":{\"ComponentName\":\"com.qualityinspection\"}},\"Retry\":[{\"ErrorEquals\":[\"Lambda.ServiceException\",\"Lambda.AWSLambdaException\",\"Lambda.SdkClientException\"],\"IntervalSeconds\":2,\"MaxAttempts\":6,\"BackoffRate\":2}],\"Next\":\"Create new deployment\",\"ResultSelector\":{\"value.$\":\"$.Payload.LatestVersion\"},\"ResultPath\":\"$.InfererenceComponentVersion\"},\"Create new deployment\":{\"Type\":\"Task\",\"Parameters\":{\"TargetArn.$\":\"$.IotThing.Arn\",\"Components\":{\"aws.greengrass.Nucleus\":{\"ComponentVersion\":\"2.9.6\",\"ConfigurationUpdate\":{\"Merge\":{\"DefaultConfiguration\":{\"interpolateComponentConfiguration\":true}}}},\"aws.greengrass.Cli\":{\"ComponentVersion\":\"2.9.6\"},\"com.qualityinspection.model\":{\"ComponentVersion.$\":\"$.ModelNextVersion.value\"},\"com.qualityinspection\":{\"ComponentVersion.$\":\"$.InfererenceComponentVersion.value\",\"ConfigurationUpdate\":{\"Merge\":\"{\\\"com.qualityinspection.model\\\":{\\\"VersionRequirement\\\": \\\">={com.qualityinspection.model:ComponentVersion}\\\", \\\"DependencyType\\\": \\\"HARD\\\"}}\"}}}},\"Resource\":\"arn:aws:states:::aws-sdk:greengrassv2:createDeployment\",\"Next\":\"Wait for deployment state change\",\"ResultSelector\":{\"value.$\":\"$.DeploymentId\"},\"ResultPath\":\"$.DeploymentId\"},\"Wait for deployment state change\":{\"Type\":\"Wait\",\"Seconds\":5,\"Next\":\"Get deployment state\"},\"Get deployment state\":{\"Type\":\"Task\",\"Parameters\":{\"DeploymentId.$\":\"$.DeploymentId.value\"},\"Resource\":\"arn:aws:states:::aws-sdk:greengrassv2:getDeployment\",\"Next\":\"Check deployment state\",\"ResultSelector\":{\"value.$\":\"$.DeploymentStatus\"},\"ResultPath\":\"$.DeploymentStatus\"},\"Check deployment state\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.DeploymentStatus.value\",\"StringMatches\":\"COMPLETED\",\"Next\":\"Wait for device state change\"},{\"Variable\":\"$.DeploymentStatus.value\",\"StringMatches\":\"ACTIVE\",\"Next\":\"Wait for deployment state change\"}],\"Default\":\"Fail\"},\"Wait for device state change\":{\"Type\":\"Wait\",\"Seconds\":5,\"Next\":\"Get core device state\"},\"Get core device state\":{\"Type\":\"Task\",\"Next\":\"Check core device state\",\"Parameters\":{\"CoreDeviceThingName.$\":\"$.IotThing.Name\"},\"Resource\":\"arn:aws:states:::aws-sdk:greengrassv2:getCoreDevice\",\"ResultSelector\":{\"value.$\":\"$.Status\"},\"ResultPath\":\"$.CoreDeviceStatus\"},\"Check core device state\":{\"Type\":\"Choice\",\"Choices\":[{\"Variable\":\"$.CoreDeviceStatus.value\",\"StringMatches\":\"HEALTHY\",\"Next\":\"Success\"}],\"Default\":\"Fail\"},\"Success\":{\"Type\":\"Succeed\"},\"Fail\":{\"Type\":\"Fail\"}},\"TimeoutSeconds\":600}"
+      ]
+     ]
+    },
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "EdgeDeploymentOrchestrationConstructedgepackagingsfnexecrole4C3383E4",
+      "Arn"
+     ]
+    },
+    "StateMachineName": "EdgeDeploymentOrchestration-MLOps-Inference-Statemachine-Pipeline-Stack"
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeDeploymentOrchestrationConstruct/EdgeDeploymentOrchestrationStepFunction"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "lambda.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "ManagedPolicyArns": [
+     {
+      "Fn::Join": [
+       "",
+       [
+        "arn:",
+        {
+         "Ref": "AWS::Partition"
+        },
+        ":iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+       ]
+      ]
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "logs:PutRetentionPolicy",
+        "logs:DeleteRetentionPolicy"
+       ],
+       "Effect": "Allow",
+       "Resource": "*"
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "Roles": [
+     {
+      "Ref": "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/ServiceRole/DefaultPolicy/Resource"
+   }
+  },
+  "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aFD4BFC8A": {
+   "Type": "AWS::Lambda::Function",
+   "Properties": {
+    "Handler": "index.handler",
+    "Runtime": "nodejs18.x",
+    "Timeout": 900,
+    "Code": {
+     "S3Bucket": {
+      "Fn::Sub": "cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}"
+     },
+     "S3Key": "5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555.zip"
+    },
+    "Role": {
+     "Fn::GetAtt": [
+      "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB",
+      "Arn"
+     ]
+    }
+   },
+   "DependsOn": [
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRoleDefaultPolicyADDA7DEB",
+    "LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8aServiceRole9741ECFB"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/LogRetentionaae0aa3c5b4d4f87b02d85b201efdd8a/Resource",
+    "aws:asset:path": "../asset.5bc602ecde93c947efe5899ae355f999986a1acbe610b1c0b9c468d738857555",
+    "aws:asset:is-bundled": false,
+    "aws:asset:property": "Code"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleBA182BFA": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "codepipeline.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Role/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleDefaultPolicyBF45531D": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleB1D93266",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleE6BD7553",
+         "Arn"
+        ]
+       }
+      },
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRole047A6E97",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleDefaultPolicyBF45531D",
+    "Roles": [
+     {
+      "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleBA182BFA"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Role/DefaultPolicy/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipeline8CAF4F0E": {
+   "Type": "AWS::CodePipeline::Pipeline",
+   "Properties": {
+    "ArtifactStore": {
+     "Location": {
+      "Fn::ImportValue": "mlopsDataBucket"
+     },
+     "Type": "S3"
+    },
+    "Name": "MlOpsEdge-Inference-Pipeline",
+    "RoleArn": {
+     "Fn::GetAtt": [
+      "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleBA182BFA",
+      "Arn"
+     ]
+    },
+    "Stages": [
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Source",
+         "Owner": "AWS",
+         "Provider": "CodeCommit",
+         "Version": "1"
+        },
+        "Configuration": {
+         "RepositoryName": "mlops-at-edge-for-quality-inspection",
+         "BranchName": "main",
+         "PollForSourceChanges": false
+        },
+        "Name": "CodeCommit",
+        "OutputArtifacts": [
+         {
+          "Name": "Artifact_Source_CodeCommit"
+         }
+        ],
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleB1D93266",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "Source"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Build",
+         "Owner": "AWS",
+         "Provider": "CodeBuild",
+         "Version": "1"
+        },
+        "Configuration": {
+         "ProjectName": {
+          "Ref": "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE"
+         },
+         "EnvironmentVariables": {
+          "Fn::Join": [
+           "",
+           [
+            "[{\"name\":\"IOT_THING_NAME\",\"type\":\"PLAINTEXT\",\"value\":\"EdgeThing-MLOps-Inference-Statemachine-Pipeline-Stack\"},{\"name\":\"ARTIFACT_BUCKET\",\"type\":\"PLAINTEXT\",\"value\":\"",
+            {
+             "Fn::ImportValue": "mlopsDataBucket"
+            },
+            "\"}]"
+           ]
+          ]
+         }
+        },
+        "InputArtifacts": [
+         {
+          "Name": "Artifact_Source_CodeCommit"
+         }
+        ],
+        "Name": "CodeBuild",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleE6BD7553",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "CreateNewInferenceComponentVersion"
+     },
+     {
+      "Actions": [
+       {
+        "ActionTypeId": {
+         "Category": "Invoke",
+         "Owner": "AWS",
+         "Provider": "StepFunctions",
+         "Version": "1"
+        },
+        "Configuration": {
+         "StateMachineArn": {
+          "Fn::Join": [
+           "",
+           [
+            "arn:aws:states:",
+            {
+             "Ref": "AWS::Region"
+            },
+            ":",
+            {
+             "Ref": "AWS::AccountId"
+            },
+            ":stateMachine:EdgeDeploymentOrchestration-MLOps-Inference-Statemachine-Pipeline-Stack"
+           ]
+          ]
+         },
+         "Input": {
+          "Fn::Join": [
+           "",
+           [
+            "{\"ModelPackageGroupName\":\"",
+            {
+             "Fn::ImportValue": "mlopsModelPackageGroup"
+            },
+            "\",\"invokationSource\":\"CodeBuild\",\"modelArn\":\"\"}"
+           ]
+          ]
+         },
+         "InputType": "Literal"
+        },
+        "Name": "Invoke",
+        "RoleArn": {
+         "Fn::GetAtt": [
+          "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRole047A6E97",
+          "Arn"
+         ]
+        },
+        "RunOrder": 1
+       }
+      ],
+      "Name": "PackageAndDeployComponentsToEdgeDevice"
+     }
+    ]
+   },
+   "DependsOn": [
+    "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleDefaultPolicyBF45531D",
+    "EdgeCiCdPipelineConstructInferenceCiCdPipelineRoleBA182BFA"
+   ],
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleB1D93266": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Source/CodeCommit/CodePipelineActionRole/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyE183E87C": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "s3:GetObject*",
+        "s3:GetBucket*",
+        "s3:List*",
+        "s3:DeleteObject*",
+        "s3:PutObject",
+        "s3:PutObjectLegalHold",
+        "s3:PutObjectRetention",
+        "s3:PutObjectTagging",
+        "s3:PutObjectVersionTagging",
+        "s3:Abort*"
+       ],
+       "Effect": "Allow",
+       "Resource": [
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           }
+          ]
+         ]
+        },
+        {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":s3:::",
+           {
+            "Fn::ImportValue": "mlopsDataBucket"
+           },
+           "/*"
+          ]
+         ]
+        }
+       ]
+      },
+      {
+       "Action": [
+        "codecommit:GetBranch",
+        "codecommit:GetCommit",
+        "codecommit:UploadArchive",
+        "codecommit:GetUploadArchiveStatus",
+        "codecommit:CancelUploadArchive"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codecommit:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":mlops-at-edge-for-quality-inspection"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleDefaultPolicyE183E87C",
+    "Roles": [
+     {
+      "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipelineSourceCodeCommitCodePipelineActionRoleB1D93266"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/Source/CodeCommit/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleE6BD7553": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/CreateNewInferenceComponentVersion/CodeBuild/CodePipelineActionRole/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleDefaultPolicy862ED036": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "codebuild:BatchGetBuilds",
+        "codebuild:StartBuild",
+        "codebuild:StopBuild"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::GetAtt": [
+         "InferenceComponentBuildConstructGgInferenceComponentBuildFBDACCBE",
+         "Arn"
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "CiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleDefaultPolicy862ED036",
+    "Roles": [
+     {
+      "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipelineCreateNewInferenceComponentVersionCodeBuildCodePipelineActionRoleE6BD7553"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/CreateNewInferenceComponentVersion/CodeBuild/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRole047A6E97": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "AWS": {
+         "Fn::Join": [
+          "",
+          [
+           "arn:",
+           {
+            "Ref": "AWS::Partition"
+           },
+           ":iam::",
+           {
+            "Ref": "AWS::AccountId"
+           },
+           ":root"
+          ]
+         ]
+        }
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/PackageAndDeployComponentsToEdgeDevice/Invoke/CodePipelineActionRole/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRoleDefaultPolicy5B23E56A": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": [
+        "states:StartExecution",
+        "states:DescribeStateMachine"
+       ],
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:states:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":stateMachine:EdgeDeploymentOrchestration-MLOps-Inference-Statemachine-Pipeline-Stack"
+         ]
+        ]
+       }
+      },
+      {
+       "Action": "states:DescribeExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:aws:states:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":execution:EdgeDeploymentOrchestration-MLOps-Inference-Statemachine-Pipeline-Stack:*"
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "iCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRoleDefaultPolicy5B23E56A",
+    "Roles": [
+     {
+      "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipelinePackageAndDeployComponentsToEdgeDeviceInvokeCodePipelineActionRole047A6E97"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/PackageAndDeployComponentsToEdgeDevice/Invoke/CodePipelineActionRole/DefaultPolicy/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleD1DE805F": {
+   "Type": "AWS::IAM::Role",
+   "Properties": {
+    "AssumeRolePolicyDocument": {
+     "Statement": [
+      {
+       "Action": "sts:AssumeRole",
+       "Effect": "Allow",
+       "Principal": {
+        "Service": "events.amazonaws.com"
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    }
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/EventsRole/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleDefaultPolicyE84229D7": {
+   "Type": "AWS::IAM::Policy",
+   "Properties": {
+    "PolicyDocument": {
+     "Statement": [
+      {
+       "Action": "codepipeline:StartPipelineExecution",
+       "Effect": "Allow",
+       "Resource": {
+        "Fn::Join": [
+         "",
+         [
+          "arn:",
+          {
+           "Ref": "AWS::Partition"
+          },
+          ":codepipeline:",
+          {
+           "Ref": "AWS::Region"
+          },
+          ":",
+          {
+           "Ref": "AWS::AccountId"
+          },
+          ":",
+          {
+           "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipeline8CAF4F0E"
+          }
+         ]
+        ]
+       }
+      }
+     ],
+     "Version": "2012-10-17"
+    },
+    "PolicyName": "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleDefaultPolicyE84229D7",
+    "Roles": [
+     {
+      "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleD1DE805F"
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceCiCdPipeline/EventsRole/DefaultPolicy/Resource"
+   }
+  },
+  "EdgeCiCdPipelineConstructInferenceTriggerOnNewModel37999F13": {
+   "Type": "AWS::Events::Rule",
+   "Properties": {
+    "EventPattern": {
+     "detail-type": [
+      "SageMaker Model Package State Change"
+     ],
+     "source": [
+      "aws.sagemaker"
+     ],
+     "detail": {
+      "ModelPackageGroupName": [
+       "TagQualityInspectionPackageGroup"
+      ],
+      "ModelApprovalStatus": [
+       "Approved"
+      ]
+     }
+    },
+    "State": "ENABLED",
+    "Targets": [
+     {
+      "Arn": {
+       "Fn::Join": [
+        "",
+        [
+         "arn:",
+         {
+          "Ref": "AWS::Partition"
+         },
+         ":codepipeline:",
+         {
+          "Ref": "AWS::Region"
+         },
+         ":",
+         {
+          "Ref": "AWS::AccountId"
+         },
+         ":",
+         {
+          "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipeline8CAF4F0E"
+         }
+        ]
+       ]
+      },
+      "Id": "Target0",
+      "RoleArn": {
+       "Fn::GetAtt": [
+        "EdgeCiCdPipelineConstructInferenceCiCdPipelineEventsRoleD1DE805F",
+        "Arn"
+       ]
+      }
+     }
+    ]
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/EdgeCiCdPipelineConstruct/InferenceTriggerOnNewModel/Resource"
+   }
+  },
+  "CDKMetadata": {
+   "Type": "AWS::CDK::Metadata",
+   "Properties": {
+    "Analytics": "v2:deflate64:H4sIAAAAAAAA/2VS227bMAz9lrwrausOA/a2NNiKAM1mOEVfC1pmHCWyJFhUisDwv4/yZd7liYeHx+YhqUx++Sy7bAUfYa2qy9roUnYHAnURTL132pHstkf7etK2FgwKZ3BjNISU5M5odeuFhkZ2qTIrxFhZNGIPFmqsFv4/YmcDgVWYt+6oDfYCVSa7N69S8S3fijyWrD3E0iIlbkGFi4SvUI4GRn7hNiE4pYG0s7/FCXzb5Sn8AHoGwg+4ibzVV4bLj3eWsGU8C0YnU7Yh3tOpQUti9i4OqGKr6fbcuugHM/8Ss7QX4VE+RXVBeoKAQrkKy6hNJbtcezTapk2cUQ1GJpg+eocQkILcpCAMNGUFkiXfo1XDjMbVQb64ukBib4kJhP44lUPS8oUJ9+yeuwyd/dRyaT50nTDf4sq/CnzkOB2ZY9+LAoOLLc+9jYFcs6Ss+APvwfvh/fyl4pmuusJWDJOwpXp6Yz8j+TiMvXW20sl1L7I1GH8Ceb/6Oj3WuxTH+df+RidnJ0k+JPM+emF5QHkOd9eHTzK7lw+rc9B63UZeToOyGOMvzKCF3AoDAAA="
+   },
+   "Metadata": {
+    "aws:cdk:path": "MLOps-Inference-Infra-Stack/MLOps-Inference/Statemachine-Pipeline-Stack/CDKMetadata/Default"
+   },
+   "Condition": "CDKMetadataAvailable"
+  }
+ },
+ "Mappings": {
+  "GreengrassOnEc2ConstructgreengrassinstanceAmiMap86ED5F49": {
+   "us-west-1": {
+    "ami": "ami-01154c8b2e9a14885"
+   },
+   "us-west-2": {
+    "ami": "ami-0ddf424f81ddb0720"
+   },
+   "us-east-1": {
+    "ami": "ami-08d4ac5b634553e16"
+   },
+   "us-east-2": {
+    "ami": "ami-0960ab670c8bb45f3"
+   },
+   "eu-west-1": {
+    "ami": "ami-0d2a4a5d69e46ea0b"
+   },
+   "eu-west-2": {
+    "ami": "ami-0bd2099338bc55e6d"
+   },
+   "eu-central-1": {
+    "ami": "ami-0c9354388bb36c088"
+   },
+   "ap-southeast-1": {
+    "ami": "ami-04ff9e9b51c1f62ca"
+   },
+   "ap-southeast-2": {
+    "ami": "ami-0300dc03c13eb7660"
+   },
+   "ap-south-1": {
+    "ami": "ami-006d3995d3a6b963b"
+   },
+   "ap-northeast-1": {
+    "ami": "ami-0f8048fa3e3b9e8ff"
+   },
+   "ap-northeast-2": {
+    "ami": "ami-0ea5eb4b05645aa8a"
+   },
+   "ca-central-1": {
+    "ami": "ami-0665ce57d172e712e"
+   }
+  },
+  "ServiceprincipalMap": {
+   "af-south-1": {
+    "states": "states.af-south-1.amazonaws.com"
+   },
+   "ap-east-1": {
+    "states": "states.ap-east-1.amazonaws.com"
+   },
+   "ap-northeast-1": {
+    "states": "states.ap-northeast-1.amazonaws.com"
+   },
+   "ap-northeast-2": {
+    "states": "states.ap-northeast-2.amazonaws.com"
+   },
+   "ap-northeast-3": {
+    "states": "states.ap-northeast-3.amazonaws.com"
+   },
+   "ap-south-1": {
+    "states": "states.ap-south-1.amazonaws.com"
+   },
+   "ap-south-2": {
+    "states": "states.ap-south-2.amazonaws.com"
+   },
+   "ap-southeast-1": {
+    "states": "states.ap-southeast-1.amazonaws.com"
+   },
+   "ap-southeast-2": {
+    "states": "states.ap-southeast-2.amazonaws.com"
+   },
+   "ap-southeast-3": {
+    "states": "states.ap-southeast-3.amazonaws.com"
+   },
+   "ap-southeast-4": {
+    "states": "states.ap-southeast-4.amazonaws.com"
+   },
+   "ca-central-1": {
+    "states": "states.ca-central-1.amazonaws.com"
+   },
+   "cn-north-1": {
+    "states": "states.cn-north-1.amazonaws.com"
+   },
+   "cn-northwest-1": {
+    "states": "states.cn-northwest-1.amazonaws.com"
+   },
+   "eu-central-1": {
+    "states": "states.eu-central-1.amazonaws.com"
+   },
+   "eu-central-2": {
+    "states": "states.eu-central-2.amazonaws.com"
+   },
+   "eu-north-1": {
+    "states": "states.eu-north-1.amazonaws.com"
+   },
+   "eu-south-1": {
+    "states": "states.eu-south-1.amazonaws.com"
+   },
+   "eu-south-2": {
+    "states": "states.eu-south-2.amazonaws.com"
+   },
+   "eu-west-1": {
+    "states": "states.eu-west-1.amazonaws.com"
+   },
+   "eu-west-2": {
+    "states": "states.eu-west-2.amazonaws.com"
+   },
+   "eu-west-3": {
+    "states": "states.eu-west-3.amazonaws.com"
+   },
+   "il-central-1": {
+    "states": "states.il-central-1.amazonaws.com"
+   },
+   "me-central-1": {
+    "states": "states.me-central-1.amazonaws.com"
+   },
+   "me-south-1": {
+    "states": "states.me-south-1.amazonaws.com"
+   },
+   "sa-east-1": {
+    "states": "states.sa-east-1.amazonaws.com"
+   },
+   "us-east-1": {
+    "states": "states.us-east-1.amazonaws.com"
+   },
+   "us-east-2": {
+    "states": "states.us-east-2.amazonaws.com"
+   },
+   "us-gov-east-1": {
+    "states": "states.us-gov-east-1.amazonaws.com"
+   },
+   "us-gov-west-1": {
+    "states": "states.us-gov-west-1.amazonaws.com"
+   },
+   "us-iso-east-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-iso-west-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-isob-east-1": {
+    "states": "states.amazonaws.com"
+   },
+   "us-west-1": {
+    "states": "states.us-west-1.amazonaws.com"
+   },
+   "us-west-2": {
+    "states": "states.us-west-2.amazonaws.com"
+   }
+  }
+ },
+ "Outputs": {
+  "EdgeCiCdPipelineConstructEdgeCiCdPipelineNameExport7EA77F5C": {
+   "Value": {
+    "Ref": "EdgeCiCdPipelineConstructInferenceCiCdPipeline8CAF4F0E"
+   }
+  }
+ },
+ "Conditions": {
+  "CDKMetadataAvailable": {
+   "Fn::Or": [
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "af-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-northeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ap-southeast-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "ca-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "cn-northwest-1"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-central-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-north-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-2"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "eu-west-3"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "me-south-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "sa-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-east-2"
+       ]
+      }
+     ]
+    },
+    {
+     "Fn::Or": [
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-1"
+       ]
+      },
+      {
+       "Fn::Equals": [
+        {
+         "Ref": "AWS::Region"
+        },
+        "us-west-2"
+       ]
+      }
+     ]
+    }
+   ]
+  }
+ },
+ "Parameters": {
+  "BootstrapVersion": {
+   "Type": "AWS::SSM::Parameter::Value<String>",
+   "Default": "/cdk-bootstrap/hnb659fds/version",
+   "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+  }
+ },
+ "Rules": {
+  "CheckBootstrapVersion": {
+   "Assertions": [
+    {
+     "Assert": {
+      "Fn::Not": [
+       {
+        "Fn::Contains": [
+         [
+          "1",
+          "2",
+          "3",
+          "4",
+          "5"
+         ],
+         {
+          "Ref": "BootstrapVersion"
+         }
+        ]
+       }
+      ]
+     },
+     "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+    }
+   ]
+  }
+ }
+}

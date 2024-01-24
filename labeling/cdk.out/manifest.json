@@ -1,0 +1,245 @@
+{
+  "version": "34.0.0",
+  "artifacts": {
+    "assembly-MLOps-Labeling-Infra-Stack-MLOps-Labeling": {
+      "type": "cdk:cloud-assembly",
+      "properties": {
+        "directoryName": "assembly-MLOps-Labeling-Infra-Stack-MLOps-Labeling",
+        "displayName": "MLOps-Labeling-Infra-Stack/MLOps-Labeling"
+      }
+    },
+    "MLOps-Labeling-Infra-Stack.assets": {
+      "type": "cdk:asset-manifest",
+      "properties": {
+        "file": "MLOps-Labeling-Infra-Stack.assets.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+      }
+    },
+    "MLOps-Labeling-Infra-Stack": {
+      "type": "aws:cloudformation:stack",
+      "environment": "aws://unknown-account/unknown-region",
+      "properties": {
+        "templateFile": "MLOps-Labeling-Infra-Stack.template.json",
+        "validateOnSynth": false,
+        "assumeRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-deploy-role-${AWS::AccountId}-${AWS::Region}",
+        "cloudFormationExecutionRoleArn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-cfn-exec-role-${AWS::AccountId}-${AWS::Region}",
+        "stackTemplateAssetObjectUrl": "s3://cdk-hnb659fds-assets-${AWS::AccountId}-${AWS::Region}/d63f2593339707811686f254c32f2b4663d65d214d6dc2e3feba6cc82695ca0a.json",
+        "requiresBootstrapStackVersion": 6,
+        "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version",
+        "additionalDependencies": [
+          "MLOps-Labeling-Infra-Stack.assets"
+        ],
+        "lookupRole": {
+          "arn": "arn:${AWS::Partition}:iam::${AWS::AccountId}:role/cdk-hnb659fds-lookup-role-${AWS::AccountId}-${AWS::Region}",
+          "requiresBootstrapStackVersion": 8,
+          "bootstrapStackVersionSsmParameter": "/cdk-bootstrap/hnb659fds/version"
+        }
+      },
+      "dependencies": [
+        "MLOps-Labeling-Infra-Stack.assets"
+      ],
+      "metadata": {
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineRole56ED428C"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineRoleDefaultPolicy9E8721B7"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipeline0D63AC3F"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Source/mlops-at-edge-for-quality-inspection/CodePipelineActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineSourcemlopsatedgeforqualityinspectionCodePipelineActionRole60F46773"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Source/mlops-at-edge-for-quality-inspection/CodePipelineActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineSourcemlopsatedgeforqualityinspectionCodePipelineActionRoleDefaultPolicy9F7B2C5E"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/EventsRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineEventsRoleAEC039AA"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/EventsRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineEventsRoleDefaultPolicyBFC3E46D"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectRoleB3C83F03"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectRoleDefaultPolicy011131E6"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/Build/Synth/CdkBuildProject/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineBuildSynthCdkBuildProjectCF5D77DD"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/MLOps-Labeling/InvokeLabelingPipeline/InvokeLabelingPipeline/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsLabelingInvokeLabelingPipelineRoleAE9C86F7"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/MLOps-Labeling/InvokeLabelingPipeline/InvokeLabelingPipeline/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsLabelingInvokeLabelingPipelineRoleDefaultPolicyB9ACBAC1"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/LabelingPipeline/MLOps-Labeling/InvokeLabelingPipeline/InvokeLabelingPipeline/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "LabelingPipelineMLOpsLabelingInvokeLabelingPipeline6780EFEE"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/ImportedRepo/MLOpsLabelingInfraStackLabelingPipelineF6E327AC-main-EventRule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "ImportedRepoMLOpsLabelingInfraStackLabelingPipelineF6E327ACmainEventRule3A7ACD8B"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/CodeBuildActionRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineCodeBuildActionRoleDCAE50F5"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/CodeBuildActionRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineCodeBuildActionRoleDefaultPolicy0A5D5905"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/UpdatePipeline/SelfMutation/Role/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineUpdatePipelineSelfMutationRole1224C75F"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/UpdatePipeline/SelfMutation/Role/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineUpdatePipelineSelfMutationRoleDefaultPolicy904C000C"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/UpdatePipeline/SelfMutation/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineUpdatePipelineSelfMutation49959104"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/DockerRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsDockerRole06AC5A1C"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/DockerRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsDockerRoleDefaultPolicy5C08E2E2"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/DockerAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsDockerAsset18299861C"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/DockerAsset2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsDockerAsset202DABFBD"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/FileRole/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsFileRole0EF8FE5C"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/FileRole/DefaultPolicy/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsFileRoleDefaultPolicyD095DBF5"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/FileAsset1/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsFileAsset1CC243DF5"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/cdk-pipeline/Assets/FileAsset2/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "cdkpipelineAssetsFileAsset22DA117FB"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/Rule/Resource": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "Rule4C995B7F"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/CDKMetadata/Default": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadata"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/CDKMetadata/Condition": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CDKMetadataAvailable"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/BootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "BootstrapVersion"
+          }
+        ],
+        "/MLOps-Labeling-Infra-Stack/CheckBootstrapVersion": [
+          {
+            "type": "aws:cdk:logicalId",
+            "data": "CheckBootstrapVersion"
+          }
+        ]
+      },
+      "displayName": "MLOps-Labeling-Infra-Stack"
+    },
+    "Tree": {
+      "type": "cdk:tree",
+      "properties": {
+        "file": "tree.json"
+      }
+    }
+  }
+}
